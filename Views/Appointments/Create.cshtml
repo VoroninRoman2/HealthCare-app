@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "New Appointment";
+    int patientId = (int)ViewData["PatientId"];
+    var healthcareProviders = (IEnumerable<HealthCare_app.Models.HealthcareProvider>)ViewData["HealthcareProviders"];
+}
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP92NsTnScUKNAWqss8jUU7kO4o-Ki2Jw"></script>
+<h2>Create New Appointment</h2>
+
+<form asp-controller="Appointments" asp-action="Create" method="post">
+    <input type="hidden" name="PatientId" value="@patientId" />
+
+    <div>
+        <label for="DateTime">Appointment Date & Time:</label>
+        <input type="datetime-local" id="DateTime" name="DateTime" required />
+    </div>
+
+    <div>
+        <label for="Purpose">Purpose of Appointment:</label>
+        <input type="text" id="Purpose" name="Purpose" required />
+    </div>
+
+     <div>
+        <label for="HealthcareProviderId">Healthcare Provider:</label>
+        <select id="HealthcareProviderId" name="HealthcareProviderId" required>
+            <option value="">Select a Healthcare Provider</option>
+            @foreach (var provider in healthcareProviders)
+            {
+                    <option value="@provider.Id">@provider.FirstName @provider.LastName (@provider.Specialty)</option>
+            }
+        </select>
+    </div>
+    <div>
+        <label for="GMapsHospitalUrl">Google Maps URL:</label>
+        <input type="text" id="GMapsHospitalUrl" name="GMapsHospitalUrl" readonly />
+    </div>
+    <div id="map" style="width: 100%; height: 400px;"></div>
+    <button type="submit">Save Appointment</button>
+</form>
+<script>
+    function initializeMap() {
+        const mapContainer = document.getElementById('map');
+        const dniproCoordinates = { lat: 48.450001, lng: 34.983334 };
+        const mapOptions = {
+            center: dniproCoordinates,
+            zoom: 12
+        };
+        const map = new google.maps.Map(mapContainer, mapOptions);
+
+        // Listen for the map click event
+        map.addListener('click', function (event) {
+            const latitude = event.latLng.lat();
+            const longitude = event.latLng.lng();
+
+            // Generate Google Maps URL and set it as the value of the GMapsHospitalUrl input element
+            const gmapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+            document.getElementById('GMapsHospitalUrl').value = gmapsUrl;
+        });
+    }
+
+    google.maps.event.addDomListener(window, 'load', initializeMap);
+</script>

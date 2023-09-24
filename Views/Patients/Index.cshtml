@@ -1,0 +1,41 @@
+﻿@model IEnumerable<HealthCare_app.Models.Patient>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Patients</title>
+</head>
+<body>
+    <h1>Patients List</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var patient in Model)
+            {
+                <tr>
+                    <td>@patient.Id</td>
+                    <td>@patient.FirstName @patient.LastName</td>
+                    <td>@patient.Email</td>
+                    <td>@patient.PhoneNumber</td>
+                    <td>
+                        <a href="@Url.Action("Edit", "Patients", new { id = patient.Id })" class="btn btn-primary">Edit</a>
+                        <a href="@Url.Action("Delete", "Patients", new { id = patient.Id })" class="btn btn-danger">Delete</a>
+                        <a href="@Url.Action("Index", "Appointments", new { patientId = patient.Id })" class="btn btn-secondary">Appointments</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a href="@Url.Action("Create", "Patients")" class="btn btn-primary">Add</a>
+</body>
+</html>

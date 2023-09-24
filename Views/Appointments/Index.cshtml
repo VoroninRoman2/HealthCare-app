@@ -1,0 +1,38 @@
+﻿@model IEnumerable<HealthCare_app.Models.Appointment>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Appointments</title>
+</head>
+<body>
+    <h1>Patient's Appointments</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Date & Time</th>
+                <th>Purpose</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var appointment in Model)
+            {
+                <tr>
+                    <td>@appointment.Id</td>
+                    <td>@appointment.DateTime</td>
+                    <td>@appointment.Purpose</td>
+                    <td><a href="@appointment.GMapsHospitalUrl">Place</a></td>
+                    <td>
+                        <a href="@Url.Action("Delete", "Appointments", new { id = appointment.Id })" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a href="@Url.Action("Create", "Appointments", new { patientId = Model.FirstOrDefault()?.PatientId })" class="btn btn-primary">Add</a>
+</body>
+</html>
