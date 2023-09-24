@@ -3,7 +3,7 @@
     int patientId = (int)ViewData["PatientId"];
     var healthcareProviders = (IEnumerable<HealthCare_app.Models.HealthcareProvider>)ViewData["HealthcareProviders"];
 }
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP92NsTnScUKNAWqss8jUU7kO4o-Ki2Jw"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<api_key>"></script>
 <h2>Create New Appointment</h2>
 
 <form asp-controller="Appointments" asp-action="Create" method="post">
